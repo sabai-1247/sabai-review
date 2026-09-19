@@ -1,11 +1,11 @@
 import random
+import urllib.parse
 import streamlit as st
-import streamlit.components.v1 as components
 
 st.set_page_config(page_title="りらっくすサバーイ - ご感想作成", page_icon="🌿")
 
 # --- Google Place ID 設定 ---
-# ※お持ちのPlace IDが入っている場合は、そのまま変更せずにお使いください
+# ※お持ちのPlace ID（ChIJ...）が入っている場合は、そのまま変更せずにお使いください
 PLACE_ID = "ChIJCax4JyVnPjURvwYJMJpQUXg"
 
 
@@ -60,6 +60,7 @@ menus = st.multiselect(
         "フェイシャルリンパ",
         "さとう式リンパケア",
     ],
+    placeholder="タップして選択してください（複数可）",
 )
 
 troubles = st.multiselect(
@@ -72,6 +73,7 @@ troubles = st.multiselect(
         "むくみ・冷え",
         "ストレス・眠りが浅い",
     ],
+    placeholder="タップして選択してください（複数可）",
 )
 
 impressions = st.multiselect(
@@ -83,6 +85,7 @@ impressions = st.multiselect(
         "力加減がちょうどよく心地よかった",
         "セラピストさんの対応がとても温かかった",
     ],
+    placeholder="タップして選択してください（複数可）",
 )
 
 changes = st.multiselect(
@@ -94,6 +97,7 @@ changes = st.multiselect(
         "ポカポカと温かくなった",
         "気分までリフレッシュできた",
     ],
+    placeholder="タップして選択してください（複数可）",
 )
 
 st.markdown("---")
@@ -105,43 +109,12 @@ if st.button("🎉 口コミ文章を作成する", type="primary"):
         review_text = generate_review(menus, troubles, impressions, changes)
         st.success("🎉 口コミ文章が作成されました！")
 
-        # 生成文表示
-        st.text_area("作成された口コミ", value=review_text, height=180, id="review_box")
-
-        # --- コピー用JavaScriptボタン ---
-        escaped_text = review_text.replace("\\", "\\\\").replace("`", "\\`").replace("\n", "\\n")
-        copy_button_html = f"""
-        <button id="copyBtn" style="
-            width: 100%;
-            padding: 12px;
-            background-color: #2e7d32;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 10px;
-        ">📋 文章を全選択してコピーする</button>
-
-        <script>
-        document.getElementById('copyBtn').addEventListener('click', function() {{
-            const text = `{escaped_text}`;
-            navigator.clipboard.writeText(text).then(function() {{
-                const btn = document.getElementById('copyBtn');
-                btn.innerText = '✅ コピーしました！そのまま下へお進みください';
-                btn.style.backgroundColor = '#1b5e20';
-            }}).catch(function(err) {{
-                alert('コピーに失敗しました。手動で長押しコピーをお願いします。');
-            }});
-        }});
-        </script>
-        """
-        components.html(copy_button_html, height=65)
+        st.write("▼ **以下の枠内の文章を「全選択してコピー」してください**")
+        st.text_area("作成された口コミ", value=review_text, height=180)
 
         # Google Review Link
         if PLACE_ID and PLACE_ID != "YOUR_PLACE_ID_HERE":
             google_url = f"https://search.google.com/local/writereview?placeid={PLACE_ID}"
-            st.markdown(f"### [👉 ここをクリックしてGoogleへ投稿する]({google_url})")
+            st.markdown(f"### [👉 コピーしたらここをクリックしてGoogleへ投稿]({google_url})")
         else:
             st.info("※Googleマップで「りらっくすサバーイ」を検索して口コミを投稿してください。")
