@@ -109,14 +109,33 @@ if st.button("🎉 口コミ文章を作成する", type="primary"):
         review_text = generate_review(menus, troubles, impressions, changes)
         st.success("🎉 口コミ文章が作成されました！")
 
-        st.write("▼ **1. 以下の文章を長押しして全選択し「コピー」してください**")
-        st.text_area("作成された口コミ", value=review_text, height=180)
+        st.markdown("### 📱 投稿のステップ")
 
-        st.warning("⚠️ **【重要】投稿時の注意**\n\nGoogle画面が開いたら、**一番右の星（★★★★★）をタップ**してから文章を貼り付けてください！")
+        st.write("**Step 1: 下の文章を長押ししてコピー**")
+        st.text_area("作成された口コミ", value=review_text, height=160)
 
-        # Google Review Link
+        st.warning("⚠️ **投稿時の注意点**\n\nGoogle画面が開いたら、**一番右の星（★★★★★）をタップ**してから文章を貼り付けてください！")
+
+        # Google Review Link (ボタン風デザイン)
         if PLACE_ID and PLACE_ID != "YOUR_PLACE_ID_HERE":
             google_url = f"https://search.google.com/local/writereview?placeid={PLACE_ID}"
-            st.markdown(f"### [👉 コピーしたらここをクリックして★5を選んで投稿]({google_url})")
+            st.markdown(
+                f"""
+                <a href="{google_url}" target="_blank" style="
+                    display: block;
+                    width: 100%;
+                    padding: 14px;
+                    background-color: #2e7d32;
+                    color: white;
+                    text-align: center;
+                    font-size: 16px;
+                    font-weight: bold;
+                    border-radius: 8px;
+                    text-decoration: none;
+                    margin-top: 10px;
+                ">Step 2: ここを押してGoogleへ投稿する ➔</a>
+                """,
+                unsafe_allow_html=True,
+            )
         else:
             st.info("※Googleマップで「りらっくすサバーイ」を検索して口コミを投稿してください。")
