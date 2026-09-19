@@ -5,7 +5,7 @@ import streamlit as st
 st.set_page_config(page_title="りらっくすサバーイ - ご感想作成", page_icon="🌿")
 
 # --- Google Place ID 設定 ---
-PLACE_ID = "ChIJm1G9QU5nPjUR2Xvm6gdBgjU"
+PLACE_ID = "ChIJCax4JyVnPjURvwYJMJpQUXg"
 
 
 def generate_review(menus, troubles, impressions, changes):
