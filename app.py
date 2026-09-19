@@ -114,7 +114,7 @@ if st.button("🎉 口コミ文章を作成する", type="primary"):
         st.write("**Step 1: 下の文章を長押ししてコピー**")
         st.text_area("作成された口コミ", value=review_text, height=160)
 
-        st.warning("⚠️ **投稿時の注意点**\n\nGoogle画面が開いたら、**一番右の星（★★★★★）をタップ**してから文章を貼り付けてください！")
+        st.warning("⚠️ **投稿時の注意点**\n\nGoogle画面が開いたら、**星で評価（★★★★★）をタップ**してから文章を貼り付けてください！")
 
         # Google Review Link (ボタン風デザイン)
         if PLACE_ID and PLACE_ID != "YOUR_PLACE_ID_HERE":
