@@ -5,6 +5,7 @@ import streamlit as st
 st.set_page_config(page_title="りらっくすサバーイ - ご感想作成", page_icon="🌿")
 
 # --- Google Place ID 設定 ---
+# ※お持ちのPlace IDが入っている場合は、そのまま変更せずにお使いください
 PLACE_ID = "ChIJCax4JyVnPjURvwYJMJpQUXg"
 
 
@@ -13,6 +14,9 @@ def generate_review(menus, troubles, impressions, changes):
         "「りらっくすサバーイ」さんにお邪魔しました。",
         "日頃の疲れを癒やしたく、「りらっくすサバーイ」さんを利用しました。",
         "評判を聞いて「りらっくすサバーイ」さんに伺いました。",
+        "体のお手入れとリフレッシュのために「りらっくすサバーイ」さんを訪問しました。",
+        "ゆっくり自分の体をケアしたくて「りらっくすサバーイ」さんにお世話になりました。",
+        "疲れた体をしっかりほぐしたくて「りらっくすサバーイ」さんへ行きました。",
     ]
 
     menu_str = "・" + "、".join(menus) if menus else ""
@@ -50,7 +54,9 @@ menus = st.multiselect(
     [
         "タイ古式マッサージ",
         "アロマオイルトリートメント",
-        "極上ヘッドマッサージ",
+        "ヘッドマッサージ",
+        "フットリフレ",
+        "ハンドリフレ",
         "フェイシャルリンパ",
         "さとう式リンパケア",
     ],
@@ -103,7 +109,7 @@ if st.button("🎉 口コミ文章を作成する", type="primary"):
         st.text_area("生成された口コミ", value=review_text, height=180)
 
         # Google Review Link
-        if PLACE_ID and PLACE_ID != "ここにプレイスIDを入れる":
+        if PLACE_ID and PLACE_ID != "YOUR_PLACE_ID_HERE":
             google_url = f"https://search.google.com/local/writereview?placeid={PLACE_ID}"
             st.markdown(f"[👉 コピーしたらここをクリックしてGoogleへ投稿]({google_url})")
         else:
