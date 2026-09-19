@@ -109,12 +109,14 @@ if st.button("🎉 口コミ文章を作成する", type="primary"):
         review_text = generate_review(menus, troubles, impressions, changes)
         st.success("🎉 口コミ文章が作成されました！")
 
-        st.write("▼ **以下の枠内の文章を「全選択してコピー」してください**")
+        st.write("▼ **1. 以下の文章を長押しして全選択し「コピー」してください**")
         st.text_area("作成された口コミ", value=review_text, height=180)
+
+        st.warning("⚠️ **【重要】投稿時の注意**\n\nGoogle画面が開いたら、**一番右の星（★★★★★）をタップ**してから文章を貼り付けてください！")
 
         # Google Review Link
         if PLACE_ID and PLACE_ID != "YOUR_PLACE_ID_HERE":
             google_url = f"https://search.google.com/local/writereview?placeid={PLACE_ID}"
-            st.markdown(f"### [👉 コピーしたらここをクリックしてGoogleへ投稿]({google_url})")
+            st.markdown(f"### [👉 コピーしたらここをクリックして★5を選んで投稿]({google_url})")
         else:
             st.info("※Googleマップで「りらっくすサバーイ」を検索して口コミを投稿してください。")
