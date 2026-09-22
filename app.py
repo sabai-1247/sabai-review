@@ -118,29 +118,26 @@ if st.button("🎉 口コミ文章を作成する", type="primary"):
         st.text_area("作成された口コミ", value=review_text, height=160)
 
         st.warning(
-            "⚠️ **投稿時の注意点**\n\n画面が開いたら**「クチコミを書く」**を押し、**一番右の星（★★★★★）をタップ**してから文章を貼り付けてください！"
+            "⚠️ **投稿時の注意点**\n\n画面が開いたら**「クチコミ」タブ**を選び、**「クチコミを書く」**から**一番右の星（★★★★★）をタップ**して文章を貼り付けてください！"
         )
 
-        # Google口コミ一覧ページを開くURL
-        if PLACE_ID:
-            google_url = (
-                f"https://search.google.com/local/reviews?placeid={PLACE_ID}"
-            )
-            st.markdown(
-                f"""
-                <a href="{google_url}" target="_blank" style="
-                    display: block;
-                    width: 100%;
-                    padding: 14px;
-                    background-color: #2e7d32;
-                    color: white;
-                    text-align: center;
-                    font-size: 16px;
-                    font-weight: bold;
-                    border-radius: 8px;
-                    text-decoration: none;
-                    margin-top: 10px;
-                ">Step 2: ここを押してGoogle口コミ画面へ移動する ➔</a>
-                """,
-                unsafe_allow_html=True,
-            )
+        # Googleマップの店舗ページ（口コミ表示）を確実に開くURL
+        google_url = f"https://www.google.com/maps/search/?api=1&query=Google&query_place_id={PLACE_ID}"
+        st.markdown(
+            f"""
+            <a href="{google_url}" target="_blank" style="
+                display: block;
+                width: 100%;
+                padding: 14px;
+                background-color: #2e7d32;
+                color: white;
+                text-align: center;
+                font-size: 16px;
+                font-weight: bold;
+                border-radius: 8px;
+                text-decoration: none;
+                margin-top: 10px;
+            ">Step 2: ここを押してGoogle口コミ画面へ移動する ➔</a>
+            """,
+            unsafe_allow_html=True,
+        )
