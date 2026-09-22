@@ -1,5 +1,4 @@
 import random
-import urllib.parse
 import streamlit as st
 
 st.set_page_config(
@@ -11,36 +10,86 @@ PLACE_ID = "ChIJNTf6KqXmPzURa3cOnJ62S_g"
 
 
 def generate_review(menus, troubles, impressions, changes):
-    intro_list = [
-        "「りらっくすサバーイ」さんにお邪魔しました。",
-        "日頃の疲れを癒やしたく、「りらっくすサバーイ」さんを利用しました。",
-        "評判を聞いて「りらっくすサバーイ」さんに伺いました。",
-        "体のお手入れとリフレッシュのために「りらっくすサバーイ」さんを訪問しました。",
-        "ゆっくり自分の体をケアしたくて「りらっくすサバーイ」さんにお世話になりました。",
-        "疲れた体をしっかりほぐしたくて「りらっくすサバーイ」さんへ行きました。",
+    # --- 1. 書き出しバリエーション ---
+    intros = [
+        "「りらっくすサバーイ」さんにお世話になりました！",
+        "日頃の疲れをリセットしたくて、「りらっくすサバーイ」さんを訪問しました。",
+        "体のケアのために「りらっくすサバーイ」さんにお邪魔しました。",
+        "ずっと気になっていた「りらっくすサバーイ」さんに行ってきました。",
+        "疲れた体をしっかりほぐしたくて、今回「りらっくすサバーイ」さんを利用しました。",
     ]
 
-    menu_str = "・" + "、".join(menus) if menus else ""
-    trouble_str = "、".join(troubles) if troubles else ""
-    impression_str = " ".join(impressions) if impressions else ""
-    change_str = " ".join(changes) if changes else ""
+    # --- 2. お悩みの表現変換 ---
+    trouble_text = ""
+    if troubles:
+        t_str = "や".join(troubles)
+        t_patterns = [
+            f"最近は特に{t_str}がつらくて相談させていただいたのですが、",
+            f"仕事柄{t_str}が溜まりがちだったのですが、",
+            f"ずっと{t_str}に悩んでいたのですが、",
+            f"特に{t_str}のケアを中心にお願いしたのですが、",
+        ]
+        trouble_text = random.choice(t_patterns)
 
-    text = f"{random.choice(intro_list)}\n\n"
+    # --- 3. メニューと施術の感想 ---
+    menu_text = ""
+    if menus:
+        m_str = "と".join(menus)
+        m_patterns = [
+            f"今回受けた{m_str}の施術が本当に心地よかったです。",
+            f"今回は{m_str}をお願いしましたが、大満足の施術でした！",
+            f"{m_str}を中心に丁寧にケアしていただきました。",
+        ]
+        menu_text = random.choice(m_patterns)
 
-    if trouble_str:
-        text += f"今回は{trouble_str}が気になって相談しました。\n"
+    # --- 4. サロンの雰囲気・印象 ---
+    impression_text = ""
+    if impressions:
+        i_str = "、".join(impressions)
+        i_patterns = [
+            f"店内の雰囲気も良く、{i_str}のがとても印象的でした。",
+            f"{i_str}ため、終始安心してリラックスすることができました。",
+            f"カウンセリングから施術まで親切で、{i_str}と感じました。",
+        ]
+        impression_text = random.choice(i_patterns)
 
-    if menu_str:
-        text += f"受けたメニュー：{menu_str}\n"
+    # --- 5. 施術後の変化 ---
+    change_text = ""
+    if changes:
+        c_str = "、".join(changes)
+        c_patterns = [
+            f"終わったあとは{c_str}、驚くほどスッキリしました！",
+            f"施術を受ける前と後では段違いで、{c_str}のを実感しています。",
+            f"帰り道にはすでに{c_str}、体も気分も軽くなりました。",
+        ]
+        change_text = random.choice(c_patterns)
 
-    if impression_str:
-        text += f"{impression_str}\n"
+    # --- 6. 締めくくり ---
+    outros = [
+        "貸切の落ち着いた空間で心身ともにリフレッシュできました。また定期的に通いたいと思います！",
+        "親身になって対応してくださり感謝しています。また疲れた時にはぜひ伺いたいです。",
+        "自分へのご褒美にぴったりの素晴らしいサロンでした。また次回もよろしくお願いします！",
+    ]
 
-    if change_str:
-        text += f"施術後は{change_str}を実感できました！\n"
+    # 文章の組み立て（自然な接続を意識）
+    parts = [random.choice(intros)]
 
-    text += "\n完全貸切の落ち着いた空間でとてもリフレッシュできました。また利用したいと思います！"
-    return text
+    if trouble_text and menu_text:
+        parts.append(f"{trouble_text}{menu_text}")
+    elif trouble_text:
+        parts.append(f"{trouble_text}とても丁寧に対応していただきました。")
+    elif menu_text:
+        parts.append(menu_text)
+
+    if impression_text:
+        parts.append(impression_text)
+
+    if change_text:
+        parts.append(change_text)
+
+    parts.append(random.choice(outros))
+
+    return "\n\n".join(parts)
 
 
 # --- UI表示 ---
@@ -115,13 +164,13 @@ if st.button("🎉 口コミ文章を作成する", type="primary"):
         st.markdown("### 📱 投稿のステップ")
 
         st.write("**Step 1: 下の文章を長押ししてコピー**")
-        st.text_area("作成された口コミ", value=review_text, height=160)
+        st.text_area("作成された口コミ", value=review_text, height=200)
 
         st.warning(
             "⚠️ **投稿時の注意点**\n\n画面が開いたら**「クチコミ」タブ**を選び、**「クチコミを書く」**から**一番右の星（★★★★★）をタップ**して文章を貼り付けてください！"
         )
 
-        # Googleマップの店舗ページ（口コミ表示）を確実に開くURL
+        # Googleマップの店舗ページ（口コミ表示）を開くURL
         google_url = f"https://www.google.com/maps/search/?api=1&query=Google&query_place_id={PLACE_ID}"
         st.markdown(
             f"""
