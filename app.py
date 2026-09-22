@@ -2,11 +2,12 @@ import random
 import urllib.parse
 import streamlit as st
 
-st.set_page_config(page_title="りらっくすサバーイ - ご感想作成", page_icon="🌿")
+st.set_page_config(
+    page_title="りらっくすサバーイ - ご感想作成", page_icon="🌿"
+)
 
 # --- Google Place ID 設定 ---
-# ※お持ちのPlace ID（ChIJ...）が入っている場合は、そのまま変更せずにお使いください
-PLACE_ID = "ChIJCax4JyVnPjURvwYJMJpQUXg"
+PLACE_ID = "ChIJNTf6KqXmPzURa3cOnJ62S_g"
 
 
 def generate_review(menus, troubles, impressions, changes):
@@ -45,7 +46,9 @@ def generate_review(menus, troubles, impressions, changes):
 # --- UI表示 ---
 st.title("🌿 りらっくすサバーイ")
 st.subheader("ご来店ありがとうございました！")
-st.write("簡単な選択肢を選ぶだけで、Google口コミ用の文章を作成できます（約15秒）。")
+st.write(
+    "簡単な選択肢を選ぶだけで、Google口コミ用の文章を作成できます（約15秒）。"
+)
 
 st.markdown("---")
 
@@ -114,11 +117,15 @@ if st.button("🎉 口コミ文章を作成する", type="primary"):
         st.write("**Step 1: 下の文章を長押ししてコピー**")
         st.text_area("作成された口コミ", value=review_text, height=160)
 
-        st.warning("⚠️ **投稿時の注意点**\n\nGoogle画面が開いたら、**星で評価（★★★★★）をタップ**してから文章を貼り付けてください！")
+        st.warning(
+            "⚠️ **投稿時の注意点**\n\n画面が開いたら**「クチコミを書く」**を押し、**一番右の星（★★★★★）をタップ**してから文章を貼り付けてください！"
+        )
 
-        # Google Review Link (ボタン風デザイン)
-        if PLACE_ID and PLACE_ID != "YOUR_PLACE_ID_HERE":
-            google_url = f"https://search.google.com/local/writereview?placeid={PLACE_ID}"
+        # Google口コミ一覧ページを開くURL
+        if PLACE_ID:
+            google_url = (
+                f"https://search.google.com/local/reviews?placeid={PLACE_ID}"
+            )
             st.markdown(
                 f"""
                 <a href="{google_url}" target="_blank" style="
@@ -133,9 +140,7 @@ if st.button("🎉 口コミ文章を作成する", type="primary"):
                     border-radius: 8px;
                     text-decoration: none;
                     margin-top: 10px;
-                ">Step 2: ここを押してGoogleへ投稿する ➔</a>
+                ">Step 2: ここを押してGoogle口コミ画面へ移動する ➔</a>
                 """,
                 unsafe_allow_html=True,
             )
-        else:
-            st.info("※Googleマップで「りらっくすサバーイ」を検索して口コミを投稿してください。")
